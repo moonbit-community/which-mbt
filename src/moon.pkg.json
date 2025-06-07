@@ -1,0 +1,15 @@
+{
+  "import": [
+    "moonbitlang/x/sys",
+    "moonbitlang/x/fs"
+  ],
+  "targets": {
+        "which_js.mbt": ["js"],
+        "which_native.mbt": ["native","llvm"],
+        "which_wasm.mbt": ["wasm", "wasm-gc"]
+    },
+    "native-stub": [
+        "which_native.c"
+    ],
+  "supported-targets": ["js", "native"]
+}
