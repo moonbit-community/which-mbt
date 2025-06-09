@@ -3,6 +3,7 @@ struct File {
   name : String
   platform : String
   path : Array[String]
+  path_split : String
   // ext : Array[String]
   ext : String
 }
@@ -32,15 +33,21 @@ fn File::new(
       match plt {
         "win32" => ["Path"]
         "linux" | "darwin" => ["PATH"]
-        _ => raise UnknownPlatform("unknown platform")
+        _ => raise UnSupportedPlatform("unknown platform")
       }
     } else {
       filepath
+    },
+    path_split: if plt == "win32" {
+      ";"
+    } else {
+      ":"
     },
     ext: if plt == "win32" {
       if filename.contains(".") {
         ""
       } else {
+        // TODO: use PATHEXT to get the possible ext
         ".exe"
       }
     } else {
@@ -57,7 +64,7 @@ fn File::find(self : File) -> Array[String]!WhichError {
   if xx is None {
     raise PathNotFound("PATH not found")
   } else {
-    let paths = xx.unwrap().split(";")
+    let paths = xx.unwrap().split(self.path_split)
     for path in paths {
       try @fs.is_file(path.to_string() + "\\" + self.name + self.ext) catch {
         _ => continue
@@ -79,13 +86,23 @@ fn File::find(self : File) -> Array[String]!WhichError {
 fn File::find_in(self : File) -> Array[String]!WhichError {
   let result = []
   for path in self.path {
-    try @fs.is_file(path + "\\" + self.name + self.ext) catch {
+
+    /// replace the backslash to forward slash
+    let mut pth = path.replace_all(old="\\", new="/")
+
+    /// incase if user's path is like "/bin/"
+    if not(pth.has_suffix("/")) {
+      pth = pth + "/"
+    }
+
+    /// add the file name and file ext 
+    pth += self.name + self.ext
+
+    /// check if the file exists, true then add to the result
+    try @fs.is_file(pth) catch {
       _ => raise FileNotFound("no such file or directory")
     } else {
-      _ =>
-        result.push(
-          path.replace_all(old="\\", new="/") + "/" + self.name + self.ext,
-        )
+      _ => result.push(pth)
     }
   }
   result
