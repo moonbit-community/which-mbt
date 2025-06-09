@@ -66,16 +66,22 @@ fn File::find(self : File) -> Array[String]!WhichError {
   } else {
     let paths = xx.unwrap().split(self.path_split)
     for path in paths {
-      try @fs.is_file(path.to_string() + "\\" + self.name + self.ext) catch {
-        _ => continue
+      /// replace the backslash to forward slash
+      let mut pth = path.replace_all(old="\\", new="/").to_string()
+
+      /// incase if user's path is like "/bin/"
+      if not(pth.has_suffix("/")) {
+        pth = pth + "/"
+      }
+
+      /// add the file name and file ext 
+      pth += self.name + self.ext
+
+      /// check if the file exists, true then add to the result
+      try @fs.is_file(pth) catch {
+        _ => raise FileNotFound("no such file or directory")
       } else {
-        _ =>
-          result.push(
-            path.to_string().replace_all(old="\\", new="/") +
-            "/" +
-            self.name +
-            self.ext,
-          )
+        _ => result.push(pth)
       }
     }
   }
