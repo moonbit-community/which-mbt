@@ -20,7 +20,12 @@ pub fn which_all(filename : String) -> Array[String]!WhichError {
   try File::new(filename).find() catch {
     e => raise e
   } else {
-    v => v
+    v =>
+      if v.length() == 0 {
+        raise FileNotFound("No such file or directory")
+      } else {
+        v
+      }
   }
 }
 
@@ -64,7 +69,12 @@ pub fn which_in_all(
   try File::new(filename, filepath~).find_in() catch {
     e => raise e
   } else {
-    v => v
+    v =>
+      if v.length() == 0 {
+        raise FileNotFound("No such file or directory")
+      } else {
+        v
+      }
   }
 }
 
