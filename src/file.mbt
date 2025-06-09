@@ -79,7 +79,7 @@ fn File::find(self : File) -> Array[String]!WhichError {
 
       /// check if the file exists, true then add to the result
       try @fs.is_file(pth) catch {
-        _ => raise FileNotFound("no such file or directory")
+        _ => continue
       } else {
         _ => result.push(pth)
       }
