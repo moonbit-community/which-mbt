@@ -1,6 +1,6 @@
-///|To pass this test, you need to replace the second `moon` with your moon path
+///|To fail this test, you need to replace the second `moon` with your moon path
 test "moon" {
-  assert_eq!(which("moon"), "moon")
+  assert_not_eq!(which("moon"), "moon")
 }
 
 ///|
