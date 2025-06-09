@@ -1,5 +1,5 @@
 ///|
-struct File {
+priv struct File {
   name : String
   platform : String
   path : Array[String]

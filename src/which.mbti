@@ -1,8 +1,6 @@
 package "FrenchPicnic/which"
 
 // Values
-fn plter() -> String
-
 fn which(String) -> String!WhichError
 
 fn which_all(String) -> Array[String]!WhichError
@@ -12,14 +10,13 @@ fn which_in(String, Array[String]) -> String!WhichError
 fn which_in_all(String, Array[String]) -> Array[String]!WhichError
 
 // Types and methods
-type File
-
 pub type! WhichError {
   PathNotFound(String)
   UnknownPlatform(String)
   UnSupportedPlatform(String)
   FileNotFound(String)
 }
+impl Show for WhichError
 
 // Type aliases
 
