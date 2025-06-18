@@ -7,7 +7,7 @@
 /// # Returns
 ///
 /// - `String` : the absolute path of the file  
-pub fn which(filename : String) -> String!WhichError {
+pub fn which(filename : String) -> String raise WhichError {
   try which_all(filename) catch {
     e => raise e
   } else {
@@ -16,7 +16,7 @@ pub fn which(filename : String) -> String!WhichError {
 }
 
 ///| Find all matching files in environment variables based on the given filename
-pub fn which_all(filename : String) -> Array[String]!WhichError {
+pub fn which_all(filename : String) -> Array[String] raise WhichError {
   try File::new(filename).find() catch {
     e => raise e
   } else {
@@ -43,7 +43,7 @@ pub fn which_all(filename : String) -> Array[String]!WhichError {
 pub fn which_in(
   filename : String,
   filepath : Array[String]
-) -> String!WhichError {
+) -> String raise WhichError {
   try which_in_all(filename, filepath) catch {
     e => raise e
   } else {
@@ -65,7 +65,7 @@ pub fn which_in(
 pub fn which_in_all(
   filename : String,
   filepath : Array[String]
-) -> Array[String]!WhichError {
+) -> Array[String] raise WhichError {
   try File::new(filename, filepath~).find_in() catch {
     e => raise e
   } else {

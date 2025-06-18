@@ -1,16 +1,16 @@
 package "FrenchPicnic/which"
 
 // Values
-fn which(String) -> String!WhichError
+fn which(String) -> String raise WhichError
 
-fn which_all(String) -> Array[String]!WhichError
+fn which_all(String) -> Array[String] raise WhichError
 
-fn which_in(String, Array[String]) -> String!WhichError
+fn which_in(String, Array[String]) -> String raise WhichError
 
-fn which_in_all(String, Array[String]) -> Array[String]!WhichError
+fn which_in_all(String, Array[String]) -> Array[String] raise WhichError
 
 // Types and methods
-pub type! WhichError {
+pub suberror WhichError {
   PathNotFound(String)
   UnknownPlatform(String)
   UnSupportedPlatform(String)

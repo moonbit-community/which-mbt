@@ -1,5 +1,5 @@
 ///|
-pub type! WhichError {
+pub suberror WhichError {
   /// when path is not found
   PathNotFound(String)
   /// when platform is unknown

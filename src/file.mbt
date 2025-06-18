@@ -18,7 +18,7 @@ priv struct File {
 fn File::new(
   filename : String,
   filepath~ : Array[String] = [""]
-) -> File!WhichError {
+) -> File raise WhichError {
   let plt = get_platform_ffi()
   if plt == "unknown" || plt.has_prefix("Which") {
     if plt.has_prefix("Which") {
@@ -58,7 +58,7 @@ fn File::new(
 
 ///| Find the file in the environment variables
 /// use @fs to check if the file exists
-fn File::find(self : File) -> Array[String]!WhichError {
+fn File::find(self : File) -> Array[String] raise WhichError {
   let result = []
   let xx = @sys.get_env_vars().get(self.path[0])
   if xx is None {
@@ -89,7 +89,7 @@ fn File::find(self : File) -> Array[String]!WhichError {
 }
 
 ///| Find the file in the given path
-fn File::find_in(self : File) -> Array[String]!WhichError {
+fn File::find_in(self : File) -> Array[String] raise WhichError {
   let result = []
   for path in self.path {
 
