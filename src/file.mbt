@@ -1,7 +1,6 @@
 ///|
 priv struct File {
   name : String
-  platform : String
   path : Array[String]
   path_split : String
   // ext : Array[String]
@@ -28,7 +27,6 @@ fn File::new(
   }
   {
     name: filename,
-    platform: plt,
     path: if filepath[0] == "" {
       match plt {
         "win32" => ["Path"]
@@ -112,18 +110,4 @@ fn File::find_in(self : File) -> Array[String] raise WhichError {
     }
   }
   result
-}
-
-///|
-/// check if the file is executable
-fn File::check_executable(self : File) -> Bool {
-  ...
-}
-
-///|
-/// if file's platform is win32 and the filename doesn't contain a dot(use for ext)  
-/// 
-/// then read the PATHEXT to get the possible ext and return the ext array
-fn File::switch_ext(self : File) -> Array[String] {
-  ...
 }
