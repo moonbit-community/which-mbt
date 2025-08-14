@@ -1,3 +1,4 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "FrenchPicnic/which"
 
 // Values
@@ -9,7 +10,7 @@ fn which_in(String, Array[String]) -> String raise WhichError
 
 fn which_in_all(String, Array[String]) -> Array[String] raise WhichError
 
-// Types and methods
+// Errors
 pub suberror WhichError {
   PathNotFound(String)
   UnknownPlatform(String)
@@ -17,6 +18,8 @@ pub suberror WhichError {
   FileNotFound(String)
 }
 impl Show for WhichError
+
+// Types and methods
 
 // Type aliases
 
