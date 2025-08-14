@@ -17,7 +17,7 @@ priv struct File {
 /// TODO(or use PATHEXT to get the possible ext)
 fn File::new(
   filename : String,
-  filepath~ : Array[String] = [""]
+  filepath~ : Array[String] = [""],
 ) -> File raise WhichError {
   let plt = get_platform_ffi()
   if plt == "unknown" || plt.has_prefix("Which") {
@@ -80,7 +80,7 @@ fn File::find(self : File) -> Array[String] raise WhichError {
       /// check if the file exists, true then add to the result
       try @fs.is_file(pth) catch {
         _ => continue
-      } else {
+      } noraise {
         _ => result.push(pth)
       }
     }
@@ -107,7 +107,7 @@ fn File::find_in(self : File) -> Array[String] raise WhichError {
     /// check if the file exists, true then add to the result
     try @fs.is_file(pth) catch {
       _ => raise FileNotFound("no such file or directory")
-    } else {
+    } noraise {
       _ => result.push(pth)
     }
   }
