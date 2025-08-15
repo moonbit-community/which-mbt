@@ -1,7 +1,6 @@
 ///|
 priv struct File {
   name : String
-  platform : String
   path : Array[String]
   path_split : String
   // ext : Array[String]
@@ -17,7 +16,7 @@ priv struct File {
 /// TODO(or use PATHEXT to get the possible ext)
 fn File::new(
   filename : String,
-  filepath~ : Array[String] = [""]
+  filepath~ : Array[String] = [""],
 ) -> File raise WhichError {
   let plt = get_platform_ffi()
   if plt == "unknown" || plt.has_prefix("Which") {
@@ -28,7 +27,6 @@ fn File::new(
   }
   {
     name: filename,
-    platform: plt,
     path: if filepath[0] == "" {
       match plt {
         "win32" => ["Path"]
@@ -80,7 +78,7 @@ fn File::find(self : File) -> Array[String] raise WhichError {
       /// check if the file exists, true then add to the result
       try @fs.is_file(pth) catch {
         _ => continue
-      } else {
+      } noraise {
         _ => result.push(pth)
       }
     }
@@ -107,23 +105,9 @@ fn File::find_in(self : File) -> Array[String] raise WhichError {
     /// check if the file exists, true then add to the result
     try @fs.is_file(pth) catch {
       _ => raise FileNotFound("no such file or directory")
-    } else {
+    } noraise {
       _ => result.push(pth)
     }
   }
   result
-}
-
-///|
-/// check if the file is executable
-fn File::check_executable(self : File) -> Bool {
-  ...
-}
-
-///|
-/// if file's platform is win32 and the filename doesn't contain a dot(use for ext)  
-/// 
-/// then read the PATHEXT to get the possible ext and return the ext array
-fn File::switch_ext(self : File) -> Array[String] {
-  ...
 }

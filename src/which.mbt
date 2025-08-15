@@ -10,7 +10,7 @@
 pub fn which(filename : String) -> String raise WhichError {
   try which_all(filename) catch {
     e => raise e
-  } else {
+  } noraise {
     v => v[0]
   }
 }
@@ -19,7 +19,7 @@ pub fn which(filename : String) -> String raise WhichError {
 pub fn which_all(filename : String) -> Array[String] raise WhichError {
   try File::new(filename).find() catch {
     e => raise e
-  } else {
+  } noraise {
     v =>
       if v.length() == 0 {
         raise FileNotFound("No such file or directory")
@@ -42,11 +42,11 @@ pub fn which_all(filename : String) -> Array[String] raise WhichError {
 /// - `String` : the absolute path of the file  
 pub fn which_in(
   filename : String,
-  filepath : Array[String]
+  filepath : Array[String],
 ) -> String raise WhichError {
   try which_in_all(filename, filepath) catch {
     e => raise e
-  } else {
+  } noraise {
     v => v[0]
   }
 }
@@ -64,11 +64,11 @@ pub fn which_in(
 /// - `Array[String]` : A string array containing all the file in given filepath  
 pub fn which_in_all(
   filename : String,
-  filepath : Array[String]
+  filepath : Array[String],
 ) -> Array[String] raise WhichError {
   try File::new(filename, filepath~).find_in() catch {
     e => raise e
-  } else {
+  } noraise {
     v =>
       if v.length() == 0 {
         raise FileNotFound("No such file or directory")
