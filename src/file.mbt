@@ -7,7 +7,8 @@ priv struct File {
   ext : String
 }
 
-///| Default the File with given `filename` and `filepath`(optional)
+///|
+/// Default the File with given `filename` and `filepath`(optional)
 /// 
 /// if `filepath` is empty, then use the current platform's PATH
 /// 
@@ -16,7 +17,7 @@ priv struct File {
 /// TODO(or use PATHEXT to get the possible ext)
 fn File::new(
   filename : String,
-  filepath~ : Array[String] = [""],
+  filepath? : Array[String] = [""],
 ) -> File raise WhichError {
   let plt = get_platform_ffi()
   if plt == "unknown" || plt.has_prefix("Which") {
@@ -54,7 +55,8 @@ fn File::new(
   }
 }
 
-///| Find the file in the environment variables
+///|
+/// Find the file in the environment variables
 /// use @fs to check if the file exists
 fn File::find(self : File) -> Array[String] raise WhichError {
   let result = []
@@ -86,7 +88,8 @@ fn File::find(self : File) -> Array[String] raise WhichError {
   result
 }
 
-///| Find the file in the given path
+///|
+/// Find the file in the given path
 fn File::find_in(self : File) -> Array[String] raise WhichError {
   let result = []
   for path in self.path {
