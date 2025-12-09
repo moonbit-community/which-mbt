@@ -34,8 +34,11 @@ jobs:
           moon check --target all
 
       - name: moon test
+        # Currently only support testing on windows
+        # with JS and Native targets
+        if: ${{ runner.os == 'Windows' }}
         run: |
-          moon test --target all
+          moon test --target native,js
 
       - name: lint
         run: |
