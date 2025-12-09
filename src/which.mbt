@@ -1,4 +1,5 @@
-///| Find the first matching file in environment variables based on the given filename
+///|
+/// Find the first matching file in environment variables based on the given filename
 ///
 /// # Parameters
 ///
@@ -15,7 +16,8 @@ pub fn which(filename : String) -> String raise WhichError {
   }
 }
 
-///| Find all matching files in environment variables based on the given filename
+///|
+/// Find all matching files in environment variables based on the given filename
 pub fn which_all(filename : String) -> Array[String] raise WhichError {
   try File::new(filename).find() catch {
     e => raise e
@@ -29,7 +31,8 @@ pub fn which_all(filename : String) -> Array[String] raise WhichError {
   }
 }
 
-///| Find the first matching file based on the given filename and filepath
+///|
+/// Find the first matching file based on the given filename and filepath
 ///
 /// # Parameters
 ///
@@ -51,7 +54,8 @@ pub fn which_in(
   }
 }
 
-///| Find all matching file based on the given filename and filepath
+///|
+/// Find all matching file based on the given filename and filepath
 /// 
 /// # Parameters
 ///
