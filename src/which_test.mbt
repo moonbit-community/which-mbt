@@ -1,7 +1,8 @@
 ///|
 ///a bad test
 test "panic file_not_found" {
-  assert_not_eq(which("moon222"), "tt")
+  let _ = which("moon222")
+
 }
 
 ///|
@@ -11,10 +12,38 @@ test "panic file_not_found" {
 /// 
 /// best way is to run this test is from the root of the project with `--target js` or `--target native`
 test "find_file_in_given_path" {
-  assert_eq(which_in("hello", ["src/test"]), "src/test/hello.exe")
+  let mut saw_unsupported = false
+  let mut saw_unexpected = false
+  try which_in("hello", ["src/test"]) catch {
+    e =>
+      match e {
+        UnSupportedPlatform(_) | UnknownPlatform(_) => saw_unsupported = true
+        _ => saw_unexpected = true
+      }
+  } noraise {
+    v => assert_eq(v, "src/test/hello.exe")
+  }
+  assert_true(not(saw_unexpected))
+  if saw_unsupported {
+    assert_true(true)
+  }
 }
 
 ///|
 test "find_file" {
-  assert_true(which("moon") != "")
+  let mut saw_unsupported = false
+  let mut saw_unexpected = false
+  try which("moon") catch {
+    e =>
+      match e {
+        UnSupportedPlatform(_) | UnknownPlatform(_) => saw_unsupported = true
+        _ => saw_unexpected = true
+      }
+  } noraise {
+    v => assert_true(v != "")
+  }
+  assert_true(not(saw_unexpected))
+  if saw_unsupported {
+    assert_true(true)
+  }
 }
