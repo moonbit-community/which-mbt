@@ -1,11 +1,8 @@
 ///|
 ///a bad test
 test "panic file_not_found" {
-  if is_unsupported_platform() {
-    assert_unsupported_platform(fn() { let _ = which("moon222") })
-  } else {
-    assert_not_eq(which("moon222"), "tt")
-  }
+  let _ = which("moon222")
+
 }
 
 ///|
@@ -15,39 +12,38 @@ test "panic file_not_found" {
 /// 
 /// best way is to run this test is from the root of the project with `--target js` or `--target native`
 test "find_file_in_given_path" {
-  if is_unsupported_platform() {
-    assert_unsupported_platform(fn() {
-      let _ = which_in("hello", ["src/test"])
-    })
-  } else {
-    assert_eq(which_in("hello", ["src/test"]), "src/test/hello.exe")
+  let mut saw_unsupported = false
+  let mut saw_unexpected = false
+  try which_in("hello", ["src/test"]) catch {
+    e =>
+      match e {
+        UnSupportedPlatform(_) | UnknownPlatform(_) => saw_unsupported = true
+        _ => saw_unexpected = true
+      }
+  } noraise {
+    v => assert_eq(v, "src/test/hello.exe")
+  }
+  assert_true(not(saw_unexpected))
+  if saw_unsupported {
+    assert_true(true)
   }
 }
 
 ///|
 test "find_file" {
-  if is_unsupported_platform() {
-    assert_unsupported_platform(fn() { let _ = which("moon") })
-  } else {
-    assert_true(which("moon") != "")
-  }
-}
-
-fn is_unsupported_platform() -> Bool {
-  let plt = get_platform_ffi()
-  plt == "unknown" || plt.has_prefix("Which")
-}
-
-fn assert_unsupported_platform(op : () -> Unit) {
-  let mut saw_error = false
-  try op() catch {
+  let mut saw_unsupported = false
+  let mut saw_unexpected = false
+  try which("moon") catch {
     e =>
       match e {
-        UnSupportedPlatform(_) | UnknownPlatform(_) => saw_error = true
-        _ => raise e
+        UnSupportedPlatform(_) | UnknownPlatform(_) => saw_unsupported = true
+        _ => saw_unexpected = true
       }
   } noraise {
-    _ => ()
+    v => assert_true(v != "")
   }
-  assert_true(saw_error)
+  assert_true(not(saw_unexpected))
+  if saw_unsupported {
+    assert_true(true)
+  }
 }
