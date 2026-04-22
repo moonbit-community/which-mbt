@@ -11,5 +11,5 @@
     "native-stub": [
         "which_native.c"
     ],
-  "supported-targets": ["js", "native"]
+  "supported-targets": "+js+native"
 }
