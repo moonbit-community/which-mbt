@@ -11,4 +11,4 @@ pub suberror WhichError {
   UnSupportedPlatform(String)
   /// 
   FileNotFound(String)
-} derive(Show)
+} derive(Debug)

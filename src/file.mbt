@@ -70,7 +70,7 @@ fn File::find(self : File) -> Array[String] raise WhichError {
       let mut pth = path.replace_all(old="\\", new="/").to_string()
 
       /// incase if user's path is like "/bin/"
-      if not(pth.has_suffix("/")) {
+      if !pth.has_suffix("/") {
         pth = pth + "/"
       }
 
@@ -98,7 +98,7 @@ fn File::find_in(self : File) -> Array[String] raise WhichError {
     let mut pth = path.replace_all(old="\\", new="/")
 
     /// incase if user's path is like "/bin/"
-    if not(pth.has_suffix("/")) {
+    if !pth.has_suffix("/") {
       pth = pth + "/"
     }
 
