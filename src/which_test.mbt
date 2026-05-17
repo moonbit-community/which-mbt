@@ -11,7 +11,7 @@ test "panic file_not_found" {
 /// 
 /// best way is to run this test is from the root of the project with `--target js` or `--target native`
 test "find_file_in_given_path" {
-  assert_eq(which_in("hello", ["src/test"]), "src/test/hello.exe")
+  assert_eq(which_in("hello.exe", ["src/test"]), "src/test/hello.exe")
 }
 
 ///|
