@@ -67,7 +67,7 @@ fn File::find(self : File) -> Array[String] raise WhichError {
     let paths = xx.unwrap().split(self.path_split)
     for path in paths {
       /// replace the backslash to forward slash
-      let mut pth = path.replace_all(old="\\", new="/").to_string()
+      let mut pth = path.replace_all(old="\\", new="/").to_owned()
 
       /// incase if user's path is like "/bin/"
       if !pth.has_suffix("/") {
