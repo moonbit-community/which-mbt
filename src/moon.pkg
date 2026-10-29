@@ -1,5 +1,6 @@
 import {
-  "moonbitlang/x/sys",
+  "moonbitlang/core/debug",
+  "moonbitlang/core/env",
   "moonbitlang/x/fs",
 }
 

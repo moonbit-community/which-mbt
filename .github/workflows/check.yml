@@ -24,6 +24,12 @@ jobs:
           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           "C:\Users\runneradmin\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+
       - name: post install
         run: |
           moon version --all
@@ -34,9 +40,6 @@ jobs:
           moon check --target all --deny-warn
 
       - name: moon test
-        # Currently only support testing on windows
-        # with JS and Native targets
-        if: ${{ runner.os == 'Windows' }}
         run: |
           moon test --target native,js
 
