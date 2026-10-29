@@ -9,4 +9,4 @@ fn get_platform_ffi() -> String {
 }
 
 ///|
-extern "C" fn get_platform() -> Int = "get_platform"
+extern "C" fn get_platform() -> Int32 = "get_platform"

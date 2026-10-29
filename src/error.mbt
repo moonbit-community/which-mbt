@@ -12,3 +12,6 @@ pub suberror WhichError {
   /// 
   FileNotFound(String)
 } derive(Debug)
+
+///|
+pub extend WhichError with @debug.Debug::{to_repr}

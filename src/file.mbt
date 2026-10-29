@@ -17,7 +17,7 @@ priv struct File {
 /// TODO(or use PATHEXT to get the possible ext)
 fn File::new(
   filename : String,
-  filepath? : Array[String] = [""],
+  filepath~ : Array[String] = [""],
 ) -> File raise WhichError {
   let plt = get_platform_ffi()
   if plt == "unknown" || plt.has_prefix("Which") {
@@ -60,7 +60,7 @@ fn File::new(
 /// use @fs to check if the file exists
 fn File::find(self : File) -> Array[String] raise WhichError {
   let result = []
-  let xx = @sys.get_env_vars().get(self.path[0])
+  let xx = @env.get_env_vars().get(self.path[0])
   if xx is None {
     raise PathNotFound("PATH not found")
   } else {
